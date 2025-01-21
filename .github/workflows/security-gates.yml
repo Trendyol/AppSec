@@ -1,0 +1,56 @@
+name: security-gates
+# Controls when the workflow will run
+on:
+  workflow_call:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "*" ]
+jobs:
+  visibility-check:
+    outputs:
+        visibility: ${{ steps.drv.outputs.visibility }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine repository visibility
+        id: drv
+        run: |
+          visibility=$(gh api /repos/$GITHUB_REPOSITORY --jq '.visibility')
+          echo "visibility=$visibility" >> $GITHUB_OUTPUT
+        env:
+            GH_TOKEN: ${{ github.token }}
+
+  gitleaks:
+    name: gitleaks
+    needs: visibility-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: prepare-gitleaks 
+        run: |
+          arc=$(uname -p)
+          [ "$arc" = "x86_64" ] && export arc="x64" || echo "$arc"
+          os=$(uname -s | tr '[:upper:]' '[:lower:]' )
+          gitleaksVersion=$(echo "8.22.1")
+          gl_full=$(printf "gitleaks_%s_%s_%s.tar.gz" "$gitleaksVersion" "$os" "$arc")
+          gl_download_link=$(printf "https://github.com/gitleaks/gitleaks/releases/download/v%s/%s" "$gitleaksVersion" "$gl_full")
+          wget $gl_download_link -q
+          tar -xzf $gl_full
+
+      - name: gitleaks-scan
+        run: |
+          if [ $VISIBILITY == "public" ]; then
+          ./gitleaks detect -f sarif -r gitleaks.sarif --redact --exit-code 0
+          else
+          ./gitleaks detect --redact -v --exit-code 0
+          fi
+        env:
+          VISIBILITY: ${{ needs.visibility-check.outputs.visibility }}
+          
+      - name: gitleaks-result-upload
+        if: needs.visibility-check.outputs.visibility == 'public'
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: gitleaks.sarif
