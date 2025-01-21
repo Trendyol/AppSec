@@ -1,0 +1,9 @@
+
+  security-gates:
+    uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
+    needs: build
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+%!(EXTRA string=build)
