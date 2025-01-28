@@ -1,3 +1,6 @@
+permissions:
+  contents: read
+  id-token: write
 on:
   push:
     branches: [main, develop]
@@ -9,6 +12,8 @@ jobs:
     steps:
       - name: Validate Workflow
         run: echo "Validation successful" 
+
+
 
   security-gates:
     uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
