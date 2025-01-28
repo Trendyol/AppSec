@@ -14,4 +14,6 @@ jobs:
         
   security-gates:
     uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
-    permissions: read-all
+    permissions: 
+      security-events: write
+      id-token: write
