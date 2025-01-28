@@ -2,11 +2,9 @@
 on:
   workflow_call:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "*" ]
-
-permissions: read-all
+    branches: [ "main" ]
 
 jobs:
   validate:
