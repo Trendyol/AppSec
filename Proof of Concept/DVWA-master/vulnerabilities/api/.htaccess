@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	# If an existing asset or directory is requested go to it as it is
+	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+	RewriteRule ^ - [L]
+
+	# Route all other calls through the API
+	RewriteRule ^ public/index.php
+</IfModule>
