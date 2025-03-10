@@ -1,34 +1,23 @@
-name: Security Gates
+name: Deploy
 
 on:
   push:
-    branches:
-      - main
-      - master
-  pull_request:
-    branches:
-      - main
-      - master
+    branches: [ "main", "master" ]
 
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Validate Workflow
-        run: echo "Validation successful"
-
-  security-gates:
-    uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-
   deploy:
-    name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Kaynak Kodunu Checkout Et
         uses: actions/checkout@v3
-      - name: Dummy Deploy Step
-        run: echo "Deploying app... (This is a dummy step)"
+
+      - name: Security Gates Taramasını Çalıştır
+        id: security
+        uses: trendyol/security-actions/.github/actions/security-gates@v1.0.0
+        with:
+          example-input: "örnek değer"
+
+      - name: Deploy İşlemini Gerçekleştir
+        run: |
+          echo "Deploy işlemi başlatılıyor..."
+          ./deploy.sh
