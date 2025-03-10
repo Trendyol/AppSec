@@ -13,7 +13,7 @@ jobs:
 
       - name: Security Gates Taramasını Çalıştır
         id: security
-        uses: trendyol/security-actions/.github/actions/security-gates@v1.0.2
+        uses: trendyol/security-actions/.github/actions/security-gates@v1.0.4
         with:
           example-input: "örnek değer"
 
