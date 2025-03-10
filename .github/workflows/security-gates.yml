@@ -1,0 +1,34 @@
+name: Security Gates
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Workflow
+        run: echo "Validation successful"
+
+  security-gates:
+    uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Dummy Deploy Step
+        run: echo "Deploying app... (This is a dummy step)"
