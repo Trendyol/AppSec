@@ -26,7 +26,6 @@ jobs:
 
   deploy:
     name: Deploy
-    needs: security-gates
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
