@@ -1,0 +1,14 @@
+name: Build Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Basit Echo İşlemi (Build)
+        run: echo "Build İşlemi: Echolasana yav!"
