@@ -1,0 +1,14 @@
+name: Release Workflow
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Basit Echo İşlemi (Release)
+        run: echo "Release İşlemi: Echolasana yav!"
