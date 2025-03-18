@@ -6,7 +6,17 @@ on:
       - 'v*'
 
 jobs:
+
+  security-gates:
+    uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+
   release:
+    needs: [security-gates]
     runs-on: ubuntu-latest
 
     steps:
