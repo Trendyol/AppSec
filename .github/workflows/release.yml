@@ -1,0 +1,14 @@
+name: Release Workflow
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+ release:
+    name: Release Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Release
+        run: echo "Releasing project..."
