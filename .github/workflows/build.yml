@@ -6,9 +6,22 @@ on:
       - main
 
 jobs:
+
+  security-gates:
+    needs: [security-gates]
+    uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
+    permissions:
+      needs: [security-gates]
+      actions: read
+      contents: read
+      security-events: write
+
+
   build:
+    needs: [security-gates]
     runs-on: ubuntu-latest
 
     steps:
+      needs: [security-gates]
       - name: Basit Echo İşlemi (Build)
         run: echo "Build İşlemi: Echolasana yav!"
