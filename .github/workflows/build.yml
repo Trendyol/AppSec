@@ -7,8 +7,16 @@ on:
 
 jobs:
   build:
+    needs: [security-gates]
     name: Build Job
     runs-on: ubuntu-latest
     steps:
+    needs: [security-gates]
       - name: Run Build
         run: echo "Building project..."
+
+  security-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Security Check
+        run: echo "Security check executed"
