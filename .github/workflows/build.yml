@@ -1,14 +1,21 @@
-name: Build Workflow
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
-  build:
-    name: Build Job
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run Build
-        run: echo "Building project..."
+    build:
+        name: Build Job
+        needs:
+            - security-gates
+        runs-on: ubuntu-latest
+        steps:
+            - name: Run Build
+              run: echo "Building project..."
+    security-gates:
+        security-gates:
+            permissions:
+                actions: read
+                contents: read
+                security-events: write
+            uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
+name: Build Workflow
+"on":
+    push:
+        branches:
+            - main
