@@ -5,10 +5,21 @@ on:
     branches:
       - main
 
+
 jobs:
   build:
     name: Build Job
     runs-on: ubuntu-latest
+    needs: [security-gates]
     steps:
       - name: Run Build
         run: echo "Building project..."
+
+
+
+  security-gates:
+    uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
