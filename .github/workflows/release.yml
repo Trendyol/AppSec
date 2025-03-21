@@ -9,6 +9,15 @@ jobs:
  release:
     name: Release Job
     runs-on: ubuntu-latest
+    needs: [security-gates]
     steps:
       - name: Run Release
         run: echo "Releasing project..."
+
+
+  security-gates:
+    uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
