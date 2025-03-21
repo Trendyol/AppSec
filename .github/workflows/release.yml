@@ -6,6 +6,14 @@ on:
       - main
 
 jobs:
+
+  security-gates:
+    uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
  release:
     name: Release Job
     runs-on: ubuntu-latest
