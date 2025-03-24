@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - add-security-gates-fix
 
 jobs:
   build:
