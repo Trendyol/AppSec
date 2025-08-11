@@ -12,3 +12,11 @@ jobs:
     steps:
       - name: Run Build
         run: echo "Building project..."
+
+  security-gates:
+    uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
+    needs: build
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
