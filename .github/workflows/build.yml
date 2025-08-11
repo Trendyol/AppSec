@@ -1,14 +1,30 @@
-name: Build Workflow
-
+name: "your-build-action"
 on:
   push:
-    branches:
-      - main
+    branches: ["master", "main"]
+  pull_request:
+    branches: ["*"]
+  workflow_dispatch:
 
 jobs:
-  build:
-    name: Build Job
+  your_build_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Run Build
-        run: echo "Building project..."
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Print Default Branch
+        run: |
+          echo ${{ github.event.repository.default_branch }}
+          ls -la
+          
+  security-gates:
+    uses: Trendyol/security-actions/.github/workflows/security-gates.yml@master
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    # The 'with' section is where you pass inputs to the reusable workflow
+    # For example, if security-gates.yml expects an input named 'some_input'
+    # with:
+    #   some_input: 'some_value'
